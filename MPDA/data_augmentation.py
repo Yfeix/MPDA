@@ -47,25 +47,25 @@ class Data_augmentation:
         return gan
     
     @staticmethod
-    def train_gan(gan, generator, discriminator, X_train, EPOCH_GAN, epochs, vul_type, true):
-        noise_input = np.random.randn(EPOCH_GAN, LATENT_DIM)
-        real_labels = np.ones((EPOCH_GAN, 1))
-        fake_labels = np.zeros((EPOCH_GAN, 1))
+    def train_gan(gan, generator, discriminator, X_train, BATCH_SIZE_GAN, epochs, vul_type, true):
+        noise_input = np.random.randn(BATCH_SIZE_GAN, LATENT_DIM)
+        real_labels = np.ones((BATCH_SIZE_GAN, 1))
+        fake_labels = np.zeros((BATCH_SIZE_GAN, 1))
 
         for epoch in range(epochs):
             print("Epoch {} of {}".format(epoch+1, epochs))
 
-            idx = np.random.randint(0, X_train.shape[0], EPOCH_GAN)
+            idx = np.random.randint(0, X_train.shape[0], BATCH_SIZE_GAN)
             real_data = X_train[idx]
 
-            noise = np.random.randn(EPOCH_GAN, LATENT_DIM)
+            noise = np.random.randn(BATCH_SIZE_GAN, LATENT_DIM)
             fake_data = generator.predict(noise)
 
             d_loss_real = discriminator.train_on_batch(real_data, real_labels)
             d_loss_fake = discriminator.train_on_batch(fake_data, fake_labels)
             d_loss = 0.5 * np.add(d_loss_real, d_loss_fake)
 
-            noise = np.random.randn(EPOCH_GAN, LATENT_DIM)
+            noise = np.random.randn(BATCH_SIZE_GAN, LATENT_DIM)
             g_loss = gan.train_on_batch(noise, real_labels)
 
             print("Epoch {}: Discriminator loss = {}, Generator loss = {}".format(epoch+1, d_loss, g_loss))
@@ -107,7 +107,7 @@ class Data_augmentation:
 
         gan_true.summary()
 
-        Data_augmentation.train_gan(gan_true, generator_true, discriminator_true, X_true, EPOCH_GAN, BATCH_SIZE_NET, vul_type, 0)
+        Data_augmentation.train_gan(gan_true, generator_true, discriminator_true, X_true, BATCH_SIZE_GAN, BATCH_SIZE_NET, vul_type, 0)
 
         true_generator = load_model('GAN/' + vul_type + '_true_generator_model.h5', compile=False)
 
@@ -131,7 +131,7 @@ class Data_augmentation:
 
         gan_false.summary()
 
-        Data_augmentation.train_gan(gan_false, generator_false, discriminator_false, X_false, EPOCH_GAN, BATCH_SIZE_NET, vul_type, 1)
+        Data_augmentation.train_gan(gan_false, generator_false, discriminator_false, X_false, BATCH_SIZE_GAN, BATCH_SIZE_NET, vul_type, 1)
 
         false_generator = load_model('GAN/' + vul_type + '_false_generator_model.h5', compile=False)
 
