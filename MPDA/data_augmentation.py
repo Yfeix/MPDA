@@ -107,7 +107,7 @@ class Data_augmentation:
 
         gan_true.summary()
 
-        Data_augmentation.train_gan(gan_true, generator_true, discriminator_true, X_true, BATCH_SIZE_GAN, BATCH_SIZE_NET, vul_type, 0)
+        Data_augmentation.train_gan(gan_true, generator_true, discriminator_true, X_true, BATCH_SIZE_GAN, BATCH_SIZE_GAN, vul_type, 0)
 
         true_generator = load_model('GAN/' + vul_type + '_true_generator_model.h5', compile=False)
 
@@ -131,7 +131,7 @@ class Data_augmentation:
 
         gan_false.summary()
 
-        Data_augmentation.train_gan(gan_false, generator_false, discriminator_false, X_false, BATCH_SIZE_GAN, BATCH_SIZE_NET, vul_type, 1)
+        Data_augmentation.train_gan(gan_false, generator_false, discriminator_false, X_false, BATCH_SIZE_GAN, BATCH_SIZE_GAN, vul_type, 1)
 
         false_generator = load_model('GAN/' + vul_type + '_false_generator_model.h5', compile=False)
 
