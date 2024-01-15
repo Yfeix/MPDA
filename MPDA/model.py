@@ -152,7 +152,7 @@ class MPDAmodel:
 
         netModel.summary()
         netModel.compile(loss=LOSS_FUNCT, optimizer=RMSprop(), metrics=['accuracy', Precision(), Recall(), MPDAmodel.f1_score])
-        netModel.fit(X_train_all, Y_train_all, batch_size=BATCH_SIZE_GAN, epochs=EPOCH_NET, validation_data=(X_val, Y_val))
+        netModel.fit(X_train_all, Y_train_all, batch_size=BATCH_SIZE_NET, epochs=EPOCH_NET, validation_data=(X_val, Y_val))
         accr = netModel.evaluate(X_test, Y_test)
         netModel.save(write_h5_to, overwrite=True)
 
