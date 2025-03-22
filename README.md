@@ -1,5 +1,5 @@
 # MPDA
-Replication code for MPDA. 
+Replication code for MPDA. Make sure to switch to the v2 branch of this repository.
 ## Requirements
 Python==3.9.21<br />
 tensorflow-gpu==2.6.0<br />
